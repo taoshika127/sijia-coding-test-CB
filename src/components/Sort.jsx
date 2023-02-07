@@ -21,20 +21,31 @@ export default function Sort(props) {
   const [sortBy, setSortBy] = React.useState('');
 
   const handleChange = (event) => {
+    console.log(event.target.value)
     setSortBy(event.target.value);
+    if (event.target.value === "Most Views") {
+      props.sortBlogs("views");
+    } else if (event.target.value === "Newest to Oldest") {
+      props.sortBlogs("newest");
+    } else if (event.target.value === "Oldest to Newest") {
+      props.sortBlogs("oldest");
+    } else {
+      props.sortBlogs("default");
+    }
   };
 
   return (
     <Box sx={{ width: 150, margin: 2}}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+        <InputLabel id="simple-select-label">Sort By</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="simple-select-label"
+          id="simple-select"
           value={sortBy}
           label="sortBy"
           onChange={handleChange}
         >
+          <MenuItem value="Default">Default</MenuItem>
           <MenuItem value="Newest to Oldest">Newest to Oldest</MenuItem>
           <MenuItem value="Oldest to Newest">Oldest to Newest</MenuItem>
           <MenuItem value="Most Views">Most Views</MenuItem>

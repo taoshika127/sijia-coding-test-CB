@@ -25,23 +25,46 @@ export default function App(props) {
         console.error(err);
       })
   }, []);
+
   var sortBlogs = (sortBy) => {
     if (sortBy === "views") {
       var sortedBlogs = blogs.sort((a, b) => (b.views - a.views));
     } else if (sortBy === "newest") {
-      var sortedBlogs = blogs.sort((a, b) => (b.created - a.created));
+      var sortedBlogs = blogs.sort((a, b) => (new Date(b.created) - new Date(a.created)));
+    } else if (sortBy === "oldest"){
+      var sortedBlogs = blogs.sort((a, b) => (new Date(a.created) - new Date(b.created)));
     } else {
-      var sortedBlogs = blogs.sort((a, b) => (a.created - b.created));
+      var sortedBlogs = blogs.sort((a, b) => (a.id - b.id));
     }
-    setBlogs(sortedBlogs);
+    setBlogs([...sortedBlogs]);
   };
+
+  var filterBy = (tagIds) => {
+    console.log("huue", tagIds);
+    var filtededBlogIds = [];
+    tagIds.forEach(id => {
+      var bloglist = tags[id].blogs;
+      bloglist.forEach(blog => {
+        var blogid = blog.id;
+        if (!filtededBlogIds.includes(blogid)) {
+          filtededBlogIds.push(blogid)
+        }
+      })
+    });
+    var copy = [...blogs];
+    var filteredBlogs = filtededBlogIds.map(id => copy[id]);
+    console.log(filtededBlogIds, filteredBlogs, "55", blogs[2])
+    setBlogs(filteredBlogs);
+
+
+  }
 
   if (!render) {
     return null;
   }
   return (<div>
     <Routes history={appHistory}>
-      <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs}/>} />
+      <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs} filterBy={filterBy}/>} />
       <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags}/>} />
       <Route path="/search" element={<SearchResultsPage blogs={blogs} tags={tags}/>}/>
     </Routes>

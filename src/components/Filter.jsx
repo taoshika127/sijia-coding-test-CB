@@ -12,6 +12,7 @@
 // }
 
 import React from 'react';
+import { useState, useEffect } from "react";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -33,29 +34,21 @@ const MenuProps = {
 };
 
 //will pass tags from app.jsx as props, right now just for testing
-const tags = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
 
 export default function Filter(props) {
-  const [tag, setTag] = React.useState([]);
+  const [tag, setTag] = useState([]);
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setTag(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setTag(typeof value === 'string' ? value.split(',') : value);
   };
+  const tags = props.tags.map(tag => {
+    return [tag.id, tag.tagname];
+  })
+  useEffect(() => {
+    props.filterBy(tag)
+  }, [tag]);
 
   return (
     <div>
@@ -68,13 +61,15 @@ export default function Filter(props) {
           value={tag}
           onChange={handleChange}
           input={<OutlinedInput label="Tag" />}
-          renderValue={(selected) => selected.join(', ')}
+          renderValue={(ids) => {
+            return (ids.map(id => props.tags[id].tagname)).join(', ')
+          }}
           MenuProps={MenuProps}
         >
           {tags.map((element) => (
-            <MenuItem key={element} value={element}>
-              <Checkbox checked={tag.indexOf(element) > -1} />
-              <ListItemText primary={element} />
+            <MenuItem key={element[0]} value={element[0]} >
+              <Checkbox checked={tag.indexOf(element[0]) > -1} />
+              <ListItemText primary={element[1]} />
             </MenuItem>
           ))}
         </Select>
