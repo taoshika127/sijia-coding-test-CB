@@ -19,7 +19,7 @@ export default function HomePage(props) {
         <Sort sortBlogs={props.sortBlogs}/>
         <Filter filterBy={props.filterBy} tags={props.tags}/>
       </div>
-      <BlogList blogs={props.blogs} tags={props.tags}/>
+      <BlogList blogs={props.blogs} tags={props.tags} filtered={props.filtered}/>
     </>
   );
 }

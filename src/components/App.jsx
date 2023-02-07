@@ -13,6 +13,8 @@ export default function App(props) {
   const [render, setRender] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [tags, setTags] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+
   useEffect(() => {
     var promises = [axios.get("/blogdata"), axios.get("/tags")];
     Promise.all(promises)
@@ -51,12 +53,7 @@ export default function App(props) {
         }
       })
     });
-    var copy = [...blogs];
-    var filteredBlogs = filtededBlogIds.map(id => copy[id]);
-    console.log(filtededBlogIds, filteredBlogs, "55", blogs[2])
-    setBlogs(filteredBlogs);
-
-
+    setFiltered(filtededBlogIds);
   }
 
   if (!render) {
@@ -64,7 +61,7 @@ export default function App(props) {
   }
   return (<div>
     <Routes history={appHistory}>
-      <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs} filterBy={filterBy}/>} />
+      <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs} filterBy={filterBy} filtered={filtered}/>} />
       <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags}/>} />
       <Route path="/search" element={<SearchResultsPage blogs={blogs} tags={tags}/>}/>
     </Routes>

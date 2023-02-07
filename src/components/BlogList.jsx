@@ -12,12 +12,12 @@ import Tag from "./Tag.jsx";
 
 export default function BlogList(props) {
   const [selectedIndex, setSelectedIndex] = React.useState(undefined);
-
+  console.log(props.filtered, "14141")
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <List component="nav" aria-label="main mailbox folders">
         {props.blogs.map(blog => {
-          if (!blog.deleted) {
+          if (!blog.deleted && (props.filtered.length === 0 || (props.filtered.length > 0 && props.filtered.includes(blog.id)))) {
             return (
               <div key={blog.id} >
                 <Divider />
