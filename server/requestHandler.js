@@ -5,15 +5,32 @@ module.exports = {
     res.status(200).send(blogs);
   },
   postNewBlogData: (req, res) => {
+    //req.body={
+//     "blogname":"baking sweet potato",
+//     "created":"2023-02-09T15:13:22",
+//     "tags":[
+//         {"id": 1, "tagname": "slow"},
+//         {"id": 4, "tagname": "vegan"},
+//         {"id": "null", "tagname": "oven"}
+//     ],
+//     "body": "In quo hinc adolescens, velit appellantur nec te. Te populo persecuti est, est possim dissentias in. Feugiat posidonium mea no. At commodo verterem eum, nam amet graeco accommodare ex. Eu his laoreet accumsan, an sea ridens aliquam splendide.\n\nSolum sententiae his te, quo natum primis tritani ex, dicta doctus ad vix. Rebum iisque epicurei usu at. Mei sanctus ullamcorper an. Ex natum appetere pri, sea ex deleniti intellegat. Est ea doming legimus eloquentiam, ut sed assentior honestatis."
+// }
     var newBlog = req.body;
     newBlog.id = blogs.length;
-    blogs.push(newBlog);
     var taglist = newBlog.tags;
-    taglist.forEach(tag => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
+    taglist.forEach(tagObj => {
+      console.log(tagObj, tagObj.id)
+      if (tagObj.id === "null") {
+        tagObj.id = tags.length;
+        var copy = Object.assign({}, tagObj)
+        tags.push(copy); //create new tag in tags db if new
       }
+      if (!tags[tagObj.id].blogs) {
+        tags[tagObj.id].blogs = [];
+      }
+      tags[tagObj.id].blogs.push({id: newBlog.id, blogname: newBlog.blogname})
     });
+    blogs.push(newBlog);
     res.status(201).send("posted new blog~");
   },
 
@@ -21,18 +38,41 @@ module.exports = {
     var id = req.params.id;
     res.status(200).send(blogs[id]);
   },
+
   postBlogData: (req, res) => {
-    var id = req.params.id;
-    for (var key in req.body) {
-      blogs[id][key] = req.body[key];
-    };
-    var taglist = blogs[id].tags;
-    taglist.forEach(tag => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
+    var blogid = Number(req.params.id);
+    var taglist = req.body.tags;
+    var oldTaglist = blogs[blogid].tags;
+    taglist.forEach(tagObj => {
+      if (tagObj.id === "null") {
+        tagObj.id = tags.length;
+        var copy = Object.assign({}, tagObj);
+        tags.push(copy);
+      } else {
+        tagObj.id = Number(tagObj.id);
       }
-    })
-    res.status(201).send("posted blog id " + id);
+      if (!tags[tagObj.id].blogs) {
+        tags[tagObj.id].blogs = [];
+      }
+      if (!tags[tagObj.id].blogs.find(element => element.id === blogid)) {
+        tags[tagObj.id].blogs.push({id: blogid, blogname: blogs[blogid].blogname})
+      }
+    });
+    for (var i = 0; i < oldTaglist.length; i++) {
+      if (!taglist.find(element =>  element.id === oldTaglist[i].id)) {
+        console.log(oldTaglist[i].id, "63");
+        var blogsToBeChanged = tags[i].blogs;
+        for (var j = 0; j < blogsToBeChanged.length; j++) {
+          if (blogsToBeChanged[j].id === blogid) {
+            blogsToBeChanged.splice(j, 1)
+          }
+        }
+      }
+    }
+    for (var key in req.body) {
+      blogs[blogid][key] = req.body[key];
+    };
+    res.status(201).send("posted blog id " + blogid);
   },
 
   deleteBlogData: (req, res) => {
@@ -42,15 +82,5 @@ module.exports = {
 
   getAllTags: (req, res) => {
     res.status(200).send(tags);
-  },
-
-  postTags: (req, res) => {
-    var newTags = req.body.newTags;
-    newTags.forEach(newTag => {
-      if (!tags.includes(newTag)) {
-        tags.push(newTag);
-      }
-    })
-    res.status(201).send("new tags posted~")
   }
 }

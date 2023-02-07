@@ -16,7 +16,7 @@ export default function HomePage(props) {
         <h4>Hello, welcome to my blog! Here I will share my recipes with everyone, hope you enjoy!</h4>
       </div>
       <div class="sort-and-filter">
-        <Sort />
+        <Sort sortBlogs={props.sortBlogs}/>
         <Filter />
       </div>
       <BlogList />

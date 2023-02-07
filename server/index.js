@@ -4,7 +4,7 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const axios = require('axios');
 require('dotenv').config();
-const {getAllBlogData, getBlogData, postBlogData, deleteBlogData, getAllTags, postTags, postNewBlogData} = require("./requestHandler.js");
+const {getAllBlogData, getBlogData, postBlogData, deleteBlogData, getAllTags, postNewBlogData} = require("./requestHandler.js");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -24,11 +24,7 @@ app.post('/blogdata/:id', postBlogData);
 
 app.post('/blogdata/:id', deleteBlogData);
 
-
 app.get('/tags', getAllTags);
-
-app.post('/tags', postTags);
-
 
 app.get('/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));

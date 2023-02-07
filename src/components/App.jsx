@@ -13,7 +13,6 @@ export default function App(props) {
   const [render, setRender] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [tags, setTags] = useState([]);
-  console.log(blogs, tags);
   useEffect(() => {
     var promises = [axios.get("/blogdata"), axios.get("/tags")];
     Promise.all(promises)
@@ -26,15 +25,25 @@ export default function App(props) {
         console.error(err);
       })
   }, []);
+  var sortBlogs = (sortBy) => {
+    if (sortBy === "views") {
+      var sortedBlogs = blogs.sort((a, b) => (b.views - a.views));
+    } else if (sortBy === "newest") {
+      var sortedBlogs = blogs.sort((a, b) => (b.created - a.created));
+    } else {
+      var sortedBlogs = blogs.sort((a, b) => (a.created - b.created));
+    }
+    setBlogs(sortedBlogs);
+  };
 
   if (!render) {
     return null;
   }
   return (<div>
     <Routes history={appHistory}>
-      <Route path="/" element={<HomePage blogs={blogs} tags={tags}/>} />
-      <Route path="/blog/:id" element={<BlogPage />} />
-      <Route path="/search" element={<SearchResultsPage />}/>
+      <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs}/>} />
+      <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags}/>} />
+      <Route path="/search" element={<SearchResultsPage blogs={blogs} tags={tags}/>}/>
     </Routes>
   </div>)
 }
