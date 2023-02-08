@@ -69,3 +69,17 @@
   justify-content: right;
 
 }
+
+#outlined-Title, #outlined-Body {
+  margin: 10px;
+}
+
+.edit-existing-tags {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.interactive-tags {
+  max-width: 300px;
+}

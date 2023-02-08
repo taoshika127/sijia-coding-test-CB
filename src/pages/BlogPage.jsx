@@ -24,7 +24,7 @@ export default function BlogPage(props) {
   return(
     <>
       <NavigationBar />
-      <BlogBody blog={blog} deleteBlog={props.deleteBlog}/>
+      <BlogBody blog={blog} deleteBlog={props.deleteBlog} editBlog={props.editBlog} tags={props.tags}/>
     </>
   );
 

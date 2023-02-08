@@ -68,6 +68,10 @@ export default function App(props) {
             setBlogs(response.data);
           })
       })
+  };
+
+  var editBlog = (obj) => {
+
   }
 
   if (!render) {
@@ -76,7 +80,7 @@ export default function App(props) {
   return (<div>
     <Routes history={appHistory}>
       <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs} filterBy={filterBy} filtered={filtered}/>} />
-      <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags} deleteBlog={deleteBlog}/>} />
+      <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags} deleteBlog={deleteBlog} editBlog={editBlog}/>} />
       <Route path="/search" element={<SearchResultsPage tags={tags} blogs={blogs} filterBy={filterBy} filtered={filtered} sortBlogs={sortBlogs} setBlogsBySearch={setBlogsBySearch}/>}/>
     </Routes>
   </div>)
