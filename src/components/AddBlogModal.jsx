@@ -10,7 +10,9 @@ import TextField from '@mui/material/TextField';
 import InteractiveTag from "./InteractiveTag.jsx";
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
-
+import Form from 'react-bootstrap/Form';
+import Divider from '@mui/material/Divider';
+import config from './config_photo.js';
 
 
 const style = {
@@ -30,6 +32,8 @@ export default function AddBlogModal(props) {
   const [open, setOpen] = useState(false);
   const [tagsArr, setTagsArr] = useState([]);
   const [text, setText] = useState('');
+  const [URL, setURL] = useState('');
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleAdd = () => {
@@ -54,7 +58,8 @@ export default function AddBlogModal(props) {
     var tags = tagsArr;
     var created = new Date().toISOString();
     var views = 0;
-    var obj = {blogname, body, tags, created, views};
+    var photo = URL;
+    var obj = {blogname, body, tags, created, views, photo};
     axios.post(`/blogdata`, obj)
       .then(() => {
         console.log("post successfully");
@@ -63,6 +68,21 @@ export default function AddBlogModal(props) {
             props.setBlogs(response.data);
             handleClose();
           })
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  }
+
+  const createURL = (e) => {
+    e.preventDefault();
+    var files = document.getElementById('add-image-file').files;
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    formData.append("upload_preset", `${config.cloudinary_preset}`);
+    axios.post(`https://api.cloudinary.com/v1_1/${config.cloudinary_id}/image/upload`, formData)
+      .then(response => {
+        setURL(response.data.url)
       })
       .catch(err => {
         console.error(err);
@@ -83,6 +103,7 @@ export default function AddBlogModal(props) {
         <Box sx={style}>
         <TextField id="outlined-Title-new" fullWidth label="Edit you blog title: " />
         <TextField id="outlined-Body-new" fullWidth multiline rows={10} label="Edit your blog text: " />
+        <Divider />
         <Typography sx={{ m: 1 }} align="left" >Edit tags: </Typography>
         <div class="edit-existing-tags">{tagsArr.map((tag, index) => {
                     return (
@@ -97,6 +118,13 @@ export default function AddBlogModal(props) {
         <Stack direction="row" spacing={0.5}>
           <TextField id="outlined-addtag-new" label="Add new tag " onChange={handleChange} value={text}/>
           <Button variant="contained" style={{"height": "25px", "marginTop": "30px"}} onClick={handleAdd}>Add</Button>
+        </Stack>
+        <Divider />
+        <Stack direction="column" spacing={1}>
+          <Form.Group>
+            <Typography sx={{ m: 1 }} align="left" >{URL ? "Replace current photo: " : "Add a new photo: "} </Typography>
+            <Form.Control id="add-image-file" type="file" onChange={createURL}/>
+          </Form.Group>
         </Stack>
         <div id="submit-button-new"><Button sx={{ m: 5 }} variant="outlined" onClick={handleSubmit}>Submit</Button></div>
 

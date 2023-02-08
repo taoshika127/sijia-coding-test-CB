@@ -73,7 +73,6 @@ module.exports = {
     });
     for (var i = 0; i < oldTaglist.length; i++) {
       if (!taglist.find(element =>  element.id === oldTaglist[i].id)) {
-        console.log(oldTaglist[i].id, "63");
         var blogsToBeChanged = tags[i].blogs;
         for (var j = 0; j < blogsToBeChanged.length; j++) {
           if (blogsToBeChanged[j].id === blogid) {
