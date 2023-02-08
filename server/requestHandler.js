@@ -4,6 +4,20 @@ module.exports = {
   getAllBlogData: (req, res) => {
     res.status(200).send(blogs);
   },
+
+  searchBlogData: (req, res) => {
+    console.log(req.params.keyword, 'keyword')
+    var keyword = req.params.keyword.toLowerCase();
+    var result = [];
+    blogs.forEach(blog => {
+      var wholeText = JSON.stringify(blog).toLowerCase();
+      if (wholeText.includes(keyword)) {
+        result.push(blog);
+      }
+    });
+    res.status(200).send(result);
+  },
+
   postNewBlogData: (req, res) => {
     //req.body={
 //     "blogname":"baking sweet potato",
@@ -19,7 +33,6 @@ module.exports = {
     newBlog.id = blogs.length;
     var taglist = newBlog.tags;
     taglist.forEach(tagObj => {
-      console.log(tagObj, tagObj.id)
       if (tagObj.id === "null") {
         tagObj.id = tags.length;
         var copy = Object.assign({}, tagObj)
@@ -78,6 +91,7 @@ module.exports = {
   deleteBlogData: (req, res) => {
     var id = req.params.id;
     blogs[id].deleted = true;
+    res.status(201).send("deleted blog id " + id);
   },
 
   getAllTags: (req, res) => {

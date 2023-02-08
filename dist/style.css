@@ -48,3 +48,24 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.blogtitle {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+}
+
+.views-and-created {
+  margin: 30px;
+  width: 100%;
+}
+
+#edit-delete-buttons {
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+
+}

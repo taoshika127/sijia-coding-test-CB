@@ -28,6 +28,10 @@ export default function App(props) {
       })
   }, []);
 
+  var setBlogsBySearch = (searchResult) => {
+    setBlogs(searchResult);
+  }
+
   var sortBlogs = (sortBy) => {
     if (sortBy === "views") {
       var sortedBlogs = blogs.sort((a, b) => (b.views - a.views));
@@ -42,7 +46,6 @@ export default function App(props) {
   };
 
   var filterBy = (tagIds) => {
-    console.log("huue", tagIds);
     var filtededBlogIds = [];
     tagIds.forEach(id => {
       var bloglist = tags[id].blogs;
@@ -54,6 +57,17 @@ export default function App(props) {
       })
     });
     setFiltered(filtededBlogIds);
+  };
+
+  var deleteBlog = (id) => {
+    console.log("here now")
+    axios.post(`/blogdata/${id}/delete`)
+      .then(() => {
+        axios.get("/blogdata")
+          .then(response => {
+            setBlogs(response.data);
+          })
+      })
   }
 
   if (!render) {
@@ -62,8 +76,8 @@ export default function App(props) {
   return (<div>
     <Routes history={appHistory}>
       <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs} filterBy={filterBy} filtered={filtered}/>} />
-      <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags}/>} />
-      <Route path="/search" element={<SearchResultsPage blogs={blogs} tags={tags}/>}/>
+      <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags} deleteBlog={deleteBlog}/>} />
+      <Route path="/search" element={<SearchResultsPage tags={tags} blogs={blogs} filterBy={filterBy} filtered={filtered} sortBlogs={sortBlogs} setBlogsBySearch={setBlogsBySearch}/>}/>
     </Routes>
   </div>)
 }

@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: 'absolute',
@@ -19,30 +21,34 @@ const style = {
   p: 4,
 };
 
-export default function EditBlogModal(props) {
+
+export default function DeleteBlogModal(props) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleDelete = () => {
+    props.deleteBlog(props.blog.id);
+    navigate("/");
+  }
   return(
     <div>
-       <Button sx={{ m: 5 }} variant="outlined" onClick={handleOpen}>Edit</Button>
+       <Button sx={{ m: 5 }} variant="outlined" onClick={handleOpen}>Delete</Button>
        <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+          <Typography id="modal-title" variant="h6" component="h2">
+            Are you sure you want to delete this post?
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <Button sx={{ m: 5 }} variant="outlined" startIcon={<DeleteIcon />} onClick={handleDelete}>Delete</Button>
+          <Button sx={{ m: 5 }} variant="outlined" onClick={handleClose}>Cancel</Button>
         </Box>
       </Modal>
 
     </div>
   );
-
 }

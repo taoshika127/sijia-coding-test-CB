@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -7,12 +6,11 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import { useNavigate } from "react-router-dom";
 import Tag from "./Tag.jsx";
 
 export default function BlogList(props) {
+  console.log(props, "blogslist")
   const [selectedIndex, setSelectedIndex] = React.useState(undefined);
-  console.log(props.filtered, "14141")
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <List component="nav" aria-label="main mailbox folders">
