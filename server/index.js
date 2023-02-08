@@ -34,7 +34,7 @@ app.get('/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
-const PORT = process.env.port;
+const PORT = process.env.port || 3000;
 app.listen(PORT, (err) => {
   if (err) console.log(err);
   console.log("Server listening on PORT", PORT);
