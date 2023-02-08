@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import { StreamChat } from 'stream-chat';
 import axios from "axios";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -13,10 +12,12 @@ import AddIcon from '@mui/icons-material/Add';
 import Form from 'react-bootstrap/Form';
 import Divider from '@mui/material/Divider';
 import config from './config_photo.js';
+import { useNavigate } from "react-router-dom";
+
 
 
 const style = {
-  '& .MuiTextField-root': { m: 2},
+  '& .MuiTextField-root': { m: 2 },
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -32,8 +33,6 @@ export default function AddBlogModal(props) {
   const [open, setOpen] = useState(false);
   const [tagsArr, setTagsArr] = useState([]);
   const [text, setText] = useState('');
-  const [URL, setURL] = useState('');
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleAdd = () => {
@@ -41,7 +40,7 @@ export default function AddBlogModal(props) {
     if (props.tags.find(element => element.tagname === tag)) {
       alert("Tag already exist, please either look for it in the tag list or enter a new one!");
     } else {
-      var obj = {id: "null", tagname: tag};
+      var obj = { id: "null", tagname: tag };
       tagsArr.push(obj);
       setTagsArr([...tagsArr]);
       setText('');
@@ -52,81 +51,97 @@ export default function AddBlogModal(props) {
     setText(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     var blogname = document.getElementById("outlined-Title-new").value;
     var body = document.getElementById("outlined-Body-new").value;
     var tags = tagsArr;
     var created = new Date().toISOString();
     var views = 0;
-    var photo = URL;
-    var obj = {blogname, body, tags, created, views, photo};
-    axios.post(`/blogdata`, obj)
-      .then(() => {
-        console.log("post successfully");
-        axios.get('/blogdata')
-          .then(response => {
-            props.setBlogs(response.data);
-            handleClose();
-          })
-      })
-      .catch(err => {
-        console.error(err);
-      })
+    var files = document.getElementById('add-image-file').files;
+    if (files.length === 0) {
+      var obj = { blogname, body, tags, created, views };
+      axios.post(`/blogdata`, obj)
+        .then(() => {
+          console.log("post successfully");
+          axios.get('/blogdata')
+            .then(response => {
+              props.setBlogs(response.data);
+              alert("Blog posted successful!");
+              handleClose();
+            })
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    } else {
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("upload_preset", `${config.cloudinary_preset}`);
+      axios.post(`https://api.cloudinary.com/v1_1/${config.cloudinary_id}/image/upload`, formData)
+        .then(response => {
+          var photo = response.data.url;
+          var obj = { blogname, body, tags, created, views, photo };
+          axios.post(`/blogdata`, obj)
+            .then(() => {
+              console.log("post successfully");
+              axios.get('/blogdata')
+                .then(response => {
+                  props.setBlogs(response.data);
+                  alert("Blog posted successful!");
+                  handleClose();
+                })
+            })
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
+
   }
 
   const createURL = (e) => {
-    e.preventDefault();
-    var files = document.getElementById('add-image-file').files;
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("upload_preset", `${config.cloudinary_preset}`);
-    axios.post(`https://api.cloudinary.com/v1_1/${config.cloudinary_id}/image/upload`, formData)
-      .then(response => {
-        setURL(response.data.url)
-      })
-      .catch(err => {
-        console.error(err);
-      })
+
   }
 
   if (!props.tags) {
     return null;
   }
-  return(
+  return (
     <div>
-       <AddIcon style={{"fontSize": "40px"}} onClick={handleOpen}/>
-       <Modal
+      <AddIcon style={{ "fontSize": "40px" }} onClick={handleOpen} />
+      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="title"
         aria-describedby="description">
         <Box sx={style}>
-        <TextField id="outlined-Title-new" fullWidth label="Edit you blog title: " />
-        <TextField id="outlined-Body-new" fullWidth multiline rows={10} label="Edit your blog text: " />
-        <Divider />
-        <Typography sx={{ m: 1 }} align="left" >Edit tags: </Typography>
-        <div class="edit-existing-tags">{tagsArr.map((tag, index) => {
-                    return (
-                      <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={tagsArr} tagged={true} setTagsArr={setTagsArr}/></div>
-                    )
-                  })}</div>
-        <div class="edit-existing-tags">{props.tags.map((tag, index) => {
-                    return (
-                      <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={tagsArr} tagged={false} setTagsArr={setTagsArr}/></div>
-                    )
-                  })}</div>
-        <Stack direction="row" spacing={0.5}>
-          <TextField id="outlined-addtag-new" label="Add new tag " onChange={handleChange} value={text}/>
-          <Button variant="contained" style={{"height": "25px", "marginTop": "30px"}} onClick={handleAdd}>Add</Button>
-        </Stack>
-        <Divider />
-        <Stack direction="column" spacing={1}>
-          <Form.Group>
-            <Typography sx={{ m: 1 }} align="left" >{URL ? "Replace current photo: " : "Add a new photo: "} </Typography>
-            <Form.Control id="add-image-file" type="file" onChange={createURL}/>
-          </Form.Group>
-        </Stack>
-        <div id="submit-button-new"><Button sx={{ m: 5 }} variant="outlined" onClick={handleSubmit}>Submit</Button></div>
+          <TextField required id="outlined-Title-new" fullWidth label="Edit you blog title: " />
+          <TextField required id="outlined-Body-new" fullWidth multiline rows={10} label="Edit your blog text: " />
+          <Divider />
+          <Typography sx={{ m: 1 }} align="left" >Edit tags: </Typography>
+          <div class="edit-existing-tags">{tagsArr.map((tag, index) => {
+            return (
+              <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={tagsArr} tagged={true} setTagsArr={setTagsArr} /></div>
+            )
+          })}</div>
+          <div class="edit-existing-tags">{props.tags.map((tag, index) => {
+            return (
+              <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={tagsArr} tagged={false} setTagsArr={setTagsArr} /></div>
+            )
+          })}</div>
+          <Stack direction="row" spacing={0.5}>
+            <TextField id="outlined-addtag-new" label="Add new tag " onChange={handleChange} value={text} />
+            <Button variant="contained" style={{ "height": "25px", "marginTop": "30px" }} onClick={handleAdd}>Add</Button>
+          </Stack>
+          <Divider />
+          <Stack direction="column" spacing={1}>
+            <Form.Group>
+              <Typography sx={{ m: 1 }} align="left" >{URL ? "Replace current photo: " : "Add a new photo: "} </Typography>
+              <Form.Control id="add-image-file" type="file" onChange={createURL} />
+            </Form.Group>
+          </Stack>
+          <div id="submit-button-new"><Button sx={{ m: 5 }} variant="outlined" onClick={handleSubmit}>Submit</Button></div>
 
         </Box>
       </Modal>

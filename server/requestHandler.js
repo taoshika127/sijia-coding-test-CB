@@ -6,7 +6,6 @@ module.exports = {
   },
 
   searchBlogData: (req, res) => {
-    console.log(req.params.keyword, 'keyword')
     var keyword = req.params.keyword.toLowerCase();
     var result = [];
     blogs.forEach(blog => {

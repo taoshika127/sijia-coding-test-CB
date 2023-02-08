@@ -61,7 +61,6 @@ export default function App(props) {
   };
 
   var deleteBlog = (id) => {
-    console.log("here now")
     axios.post(`/blogdata/${id}/delete`)
       .then(() => {
         axios.get("/blogdata")

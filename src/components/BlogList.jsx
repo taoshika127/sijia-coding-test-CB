@@ -9,7 +9,6 @@ import Divider from '@mui/material/Divider';
 import Tag from "./Tag.jsx";
 
 export default function BlogList(props) {
-  console.log(props, "blogslist")
   const [selectedIndex, setSelectedIndex] = React.useState(undefined);
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>

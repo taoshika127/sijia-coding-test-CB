@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import { StreamChat } from 'stream-chat';
 import axios from "axios";
 import NavigationBar from "../components/NavigationBar.jsx";
 import Sort from "../components/Sort.jsx";
@@ -21,7 +20,6 @@ export default function SearchResultsPage(props) {
     if (keyword.length !== 0) {
       axios.get(`/searchblogs/${keyword}`)
       .then(response => {
-        console.log(response.data);
         //setSearchResults(response.data);
         props.setBlogsBySearch(response.data);
       })

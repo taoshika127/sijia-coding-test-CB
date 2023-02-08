@@ -7,7 +7,9 @@ require('dotenv').config();
 const {getAllBlogData, searchBlogData, getBlogData, postBlogData, deleteBlogData, getAllTags, postNewBlogData} = require("./requestHandler.js");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, '../dist')));
 
 app.get('/test', (req, res) => {
