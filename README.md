@@ -7,7 +7,9 @@
 5. For easier access, I didn't hide the config file for cloudinary API. The config file is under src/components/config_photo.js.
 
 ## My Blog
-Video Go-through: https://drive.google.com/file/d/1ITckyW0o9V3U-Xk7cLVhU3L9tdlbAU8P/view?usp=sharing 
+Video Go-through: 
+https://drive.google.com/file/d/1ITckyW0o9V3U-Xk7cLVhU3L9tdlbAU8P/view?usp=sharing 
+
 My blog is a website where the creator can view, edit and add new blogs of hers/his.
 I have spent two and half days to work on this app. Below is a workflow:
 
