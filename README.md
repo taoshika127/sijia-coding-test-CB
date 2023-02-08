@@ -1,5 +1,5 @@
 # sijia-coding-test-CB
-# Steps:
+## Steps:
 1. After cloned the repository, run npm install
 2. create an .env file and enter port number. e.g. port = 8080
 3. Open one terminal and run npm run server
