@@ -1,12 +1,13 @@
 # sijia-coding-test-CB
-Steps:
+# Steps:
 1. After cloned the repository, run npm install
 2. create an .env file and enter port number. e.g. port = 8080
 3. Open one terminal and run npm run server
 4. One another termianl and run npm run watch
 5. For easier access, I didn't hide the config file for cloudinary API. The config file is under src/components/config_photo.js.
 
-My Blog
+## My Blog
+
 My blog is a website where the creator can view, edit and add new blogs of hers/his.
 I have spent two and half days to work on this app. Below is a workflow:
 
@@ -18,6 +19,8 @@ Day 2: Building all necessary components and pages. And tested constantly to mak
 
 Day 3: Since I got some extra time, I decided to add the photo feature, which allows the creator to add one photo per blog. It worked fine.
 
-Some notes: due to the limited time, I didn't get to build the data API, I just created some sample data in VScode, which can be accessd in db folder. Ideally I would build the API in a different repository and use MongoDB or Postgres to build the database. Also, if I had more time, I would implement Auth0 to provide some authentication guard for different pages. For example, for people other than the blog creator herself/himself, they won't be able to edit or add the blog. They can only view, sort, filter and search. Also, right now it's wokring on localhost only, if I had more time I would deploy it by using AWS ec2 instance.
+## Some notes: 
+
+due to the limited time, I didn't get to build the data API, I just created some sample data in VScode, which can be accessd in db folder. Ideally I would build the API in a different repository and use MongoDB or Postgres to build the database. Also, if I had more time, I would implement Auth0 to provide some authentication guard for different pages. For example, for people other than the blog creator herself/himself, they won't be able to edit or add the blog. They can only view, sort, filter and search. Also, right now it's wokring on localhost only, if I had more time I would deploy it by using AWS ec2 instance.
 
 
