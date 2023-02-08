@@ -37,7 +37,9 @@ export default function InteractiveTag(props) {
   };
   const handleAdd = () => {
     console.log("clicked")
-    props.currentTags.push(props.tag);
+    var obj = Object.assign({}, props.tag);
+    delete obj["blogs"];
+    props.currentTags.push(obj);
     props.setTagsArr([...props.currentTags]);
   };
 
