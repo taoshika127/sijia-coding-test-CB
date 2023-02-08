@@ -13,7 +13,7 @@ export default function BlogBody(props) {
     <>
       <div class="blogtitle">
         <Typography align="center" variant="h4" component="h5">{props.blog.blogname}</Typography>
-        <h4 class="views-and-created" align="center" variant="h7" component="h7" style={{"color":"grey", "fontStyle": "italic"}}>{props.blog.views + " views"}</h4>
+        <h4 class="views-and-created" align="center" variant="h6" component="h6" style={{"color":"grey", "fontStyle": "italic"}}>{(props.blog.views || "0") + " views"}</h4>
         <div class="tags">{props.blog.tags.map((tag, index) => {
                     return (
                       <div key={index}><Tag tag={tag}/></div>
@@ -21,7 +21,7 @@ export default function BlogBody(props) {
                   })}
         </div>
         <Typography sx={{ m: 5 }} align="left" variant="h6" component="h6">{props.blog.body}</Typography>
-        <Typography class="views-and-created" align="center" variant="h7" component="h7" style={{"color":"grey"}}>{"Created on " + props.blog.created.slice(0, 10)}</Typography>
+        <Typography class="views-and-created" align="center" variant="h6" component="h6" style={{"color":"grey"}}>{"Created on " + props.blog.created.slice(0, 10)}</Typography>
       </div>
       <div id="edit-delete-buttons">
         <EditBlogModal id={props.blog.id} blog={props.blog} editBlog={props.editBlog} tags={props.tags} setBlogs={props.setBlogs}/>

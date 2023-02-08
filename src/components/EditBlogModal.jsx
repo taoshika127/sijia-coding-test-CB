@@ -28,6 +28,7 @@ const style = {
 export default function EditBlogModal(props) {
   const [open, setOpen] = useState(false);
   const [tagsArr, setTagsArr] = useState(props.blog.tags);
+  const [text, setText] = useState('');
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -41,7 +42,12 @@ export default function EditBlogModal(props) {
       var obj = {id: "null", tagname: tag};
       tagsArr.push(obj);
       setTagsArr([...tagsArr]);
+      setText('');
     }
+  };
+
+  const handleChange = (event) => {
+    setText(event.target.value);
   };
 
   const handleSubmit = () => {
@@ -86,7 +92,7 @@ export default function EditBlogModal(props) {
                     )
                   })}</div>
         <Stack direction="row" spacing={0.5}>
-          <TextField id="outlined-addtag" label="Add new tag " />
+          <TextField id="outlined-addtag" label="Add new tag " value={text} onChange={handleChange}/>
           <Button variant="contained" style={{"height": "25px", "marginTop": "30px"}} onClick={handleAdd}>Add</Button>
         </Stack>
         <div id="submit-button"><Button sx={{ m: 5 }} variant="outlined" onClick={handleSubmit}>Submit</Button></div>

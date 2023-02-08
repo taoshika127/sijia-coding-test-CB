@@ -30,7 +30,7 @@ export default function AddBlogModal(props) {
   console.log(props, 'add');
   const [open, setOpen] = useState(false);
   const [tagsArr, setTagsArr] = useState([]);
-
+  const [text, setText] = useState('');
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleAdd = () => {
@@ -41,7 +41,12 @@ export default function AddBlogModal(props) {
       var obj = {id: "null", tagname: tag};
       tagsArr.push(obj);
       setTagsArr([...tagsArr]);
+      setText('');
     }
+  };
+
+  const handleChange = (event) => {
+    setText(event.target.value);
   };
 
   const handleSubmit = () => {
@@ -49,7 +54,8 @@ export default function AddBlogModal(props) {
     var body = document.getElementById("outlined-Body-new").value;
     var tags = tagsArr;
     var created = new Date().toISOString();
-    var obj = {blogname, body, tags, created};
+    var views = 0;
+    var obj = {blogname, body, tags, created, views};
     axios.post(`/blogdata`, obj)
       .then(() => {
         console.log("post successfully");
@@ -90,7 +96,7 @@ export default function AddBlogModal(props) {
                     )
                   })}</div>
         <Stack direction="row" spacing={0.5}>
-          <TextField id="outlined-addtag-new" label="Add new tag " />
+          <TextField id="outlined-addtag-new" label="Add new tag " onChange={handleChange} value={text}/>
           <Button variant="contained" style={{"height": "25px", "marginTop": "30px"}} onClick={handleAdd}>Add</Button>
         </Stack>
         <div id="submit-button-new"><Button sx={{ m: 5 }} variant="outlined" onClick={handleSubmit}>Submit</Button></div>
