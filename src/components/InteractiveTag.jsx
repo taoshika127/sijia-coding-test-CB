@@ -29,14 +29,14 @@ export default function InteractiveTag(props) {
   const handleDelete = () => {
     var selectedTags = props.currentTags;
     for (var i = 0; i < selectedTags.length; i++) {
-      if (selectedTags[i].id === props.tag.id) {
+      if (selectedTags[i].tagname === props.tag.tagname) {
         selectedTags.splice(i, 1);
       }
     }
     props.setTagsArr([...selectedTags]);
   };
+
   const handleAdd = () => {
-    console.log("clicked")
     var obj = Object.assign({}, props.tag);
     delete obj["blogs"];
     props.currentTags.push(obj);

@@ -27,7 +27,6 @@ const style = {
 };
 
 export default function AddBlogModal(props) {
-  console.log(props, 'add');
   const [open, setOpen] = useState(false);
   const [tagsArr, setTagsArr] = useState([]);
   const [text, setText] = useState('');

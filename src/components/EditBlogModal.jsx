@@ -83,12 +83,12 @@ export default function EditBlogModal(props) {
         <Typography sx={{ m: 1 }} align="left" >Edit tags: </Typography>
         <div class="edit-existing-tags">{tagsArr.map((tag, index) => {
                     return (
-                      <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={props.blog.tags} tagged={true} setTagsArr={setTagsArr}/></div>
+                      <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={tagsArr} tagged={true} setTagsArr={setTagsArr}/></div>
                     )
                   })}</div>
         <div class="edit-existing-tags">{props.tags.map((tag, index) => {
                     return (
-                      <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={props.blog.tags} tagged={false} setTagsArr={setTagsArr}/></div>
+                      <div key={index} class="interactive-tags"><InteractiveTag tag={tag} currentTags={tagsArr} tagged={false} setTagsArr={setTagsArr}/></div>
                     )
                   })}</div>
         <Stack direction="row" spacing={0.5}>
