@@ -6,8 +6,9 @@
 4. One another termianl and run npm run watch
 5. For easier access, I didn't hide the config file for cloudinary API. The config file is under src/components/config_photo.js.
 
-## My Blog
+## Intro to My Blog
 Video Go-through: 
+
 https://drive.google.com/file/d/1ITckyW0o9V3U-Xk7cLVhU3L9tdlbAU8P/view?usp=sharing 
 
 My blog is a website where the creator can view, edit and add new blogs of hers/his.
@@ -23,6 +24,6 @@ Day 3: Since I got some extra time, I decided to add the photo feature, which al
 
 ## Some notes: 
 
-due to the limited time, I didn't get to build the data API, I just created some sample data in VScode, which can be accessd in db folder. Ideally I would build the API in a different repository and use MongoDB or Postgres to build the database. Also, if I had more time, I would implement Auth0 to provide some authentication guard for different pages. For example, for people other than the blog creator herself/himself, they won't be able to edit or add the blog. They can only view, sort, filter and search. Also, right now it's wokring on localhost only, if I had more time I would deploy it by using AWS ec2 instance.
+Due to the limited time, I didn't get to build the data API, I just created some sample data in VScode, which can be accessd in db folder. Ideally I would build the API in a different repository and use MongoDB or Postgres to build the database. Also, if I had more time, I would implement Auth0 to provide some authentication guard for different pages. For example, for people other than the blog creator herself/himself, they won't be able to edit or add the blog. They can only view, sort, filter and search. Also, right now it's wokring on localhost only, if I had more time I would deploy it by using AWS ec2 instance.
 
 
