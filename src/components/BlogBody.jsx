@@ -20,6 +20,7 @@ export default function BlogBody(props) {
                     )
                   })}
         </div>
+        {props.blog.photo ? <div class="full-size-photo-div"><div class="blog-photo-div"><img class="blog-photo" src={props.blog.photo} /></div></div> : null}
         <Typography sx={{ m: 5 }} align="left" variant="h6" component="h6">{props.blog.body}</Typography>
         <Typography class="views-and-created" align="center" variant="h6" component="h6" style={{"color":"grey"}}>{"Created on " + props.blog.created.slice(0, 10)}</Typography>
       </div>
