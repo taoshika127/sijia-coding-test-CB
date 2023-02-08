@@ -7,6 +7,7 @@ export const appHistory = createBrowserHistory();
 import HomePage from "../pages/HomePage.jsx";
 import BlogPage from "../pages/BlogPage.jsx";
 import SearchResultsPage from "../pages/SearchResultsPage.jsx";
+import NavigationBar from "./NavigationBar.jsx";
 
 
 export default function App(props) {
@@ -70,18 +71,18 @@ export default function App(props) {
       })
   };
 
-  var editBlog = (obj) => {
-
-  }
 
   if (!render) {
     return null;
   }
   return (<div>
+    <NavigationBar blogs={blogs} tags={tags} setBlogs={setBlogs}/>
     <Routes history={appHistory}>
       <Route path="/" element={<HomePage blogs={blogs} tags={tags} sortBlogs={sortBlogs} filterBy={filterBy} filtered={filtered}/>} />
-      <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags} deleteBlog={deleteBlog} editBlog={editBlog}/>} />
+      <Route path="/blog/:id" element={<BlogPage blogs={blogs} tags={tags} deleteBlog={deleteBlog} setBlogs={setBlogs}/>} />
       <Route path="/search" element={<SearchResultsPage tags={tags} blogs={blogs} filterBy={filterBy} filtered={filtered} sortBlogs={sortBlogs} setBlogsBySearch={setBlogsBySearch}/>}/>
+      <Route path="/navigate" element={<NavigationBar blogs={blogs} tags={tags} setBlogs={setBlogs}/>} />
     </Routes>
+
   </div>)
 }

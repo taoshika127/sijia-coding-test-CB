@@ -5,9 +5,10 @@ import axios from "axios";
 import { Container, Navbar } from 'react-bootstrap';
 import SearchBar from "./SearchBar.jsx";
 import AddIcon from '@mui/icons-material/Add';
-
+import AddBlogModal from "./AddBlogModal.jsx";
 
 export default function NavigationBar(props) {
+  console.log(props, "nva")
 
     return (
       <>
@@ -15,7 +16,8 @@ export default function NavigationBar(props) {
         <Container id="navbar-container">
             <Navbar.Brand href="/" >Home</Navbar.Brand>
             <SearchBar />
-            <AddIcon style={{"fontSize": "40px"}}/>
+            <AddBlogModal blogs={props.blogs} tags={props.tags} setBlogs={props.setBlogs}/>
+            {/* <AddIcon style={{"fontSize": "40px"}}/> */}
         </Container>
       </Navbar>
       </>

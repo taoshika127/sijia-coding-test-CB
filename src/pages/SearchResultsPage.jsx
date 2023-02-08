@@ -33,7 +33,6 @@ export default function SearchResultsPage(props) {
 
   return(
     <>
-      <NavigationBar />
       <div class="sort-and-filter">
         <Sort sortBlogs={props.sortBlogs}/>
         <Filter filterBy={props.filterBy} tags={props.tags}/>

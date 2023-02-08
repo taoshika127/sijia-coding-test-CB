@@ -9,7 +9,6 @@ import DeleteBlogModal from "./DeleteBlogModal.jsx";
 
 
 export default function BlogBody(props) {
-
   return(
     <>
       <div class="blogtitle">
@@ -25,7 +24,7 @@ export default function BlogBody(props) {
         <Typography class="views-and-created" align="center" variant="h7" component="h7" style={{"color":"grey"}}>{"Created on " + props.blog.created.slice(0, 10)}</Typography>
       </div>
       <div id="edit-delete-buttons">
-        <EditBlogModal id={props.blog.id} blog={props.blog} editBlog={props.editBlog} tags={props.tags}/>
+        <EditBlogModal id={props.blog.id} blog={props.blog} editBlog={props.editBlog} tags={props.tags} setBlogs={props.setBlogs}/>
         <DeleteBlogModal id={props.blog.id} deleteBlog={props.deleteBlog} blog={props.blog}/>
       </div>
 

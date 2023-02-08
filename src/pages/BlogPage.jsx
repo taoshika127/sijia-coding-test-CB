@@ -8,23 +8,20 @@ import {useParams} from 'react-router-dom';
 
 export default function BlogPage(props) {
   let { id } = useParams();
-  console.log(id);
   const [blog, setBlog] = useState(undefined);
-
   useEffect(() => {
     axios.get(`/blogdata/${id}`)
       .then(response => {
         setBlog(response.data);
       })
-  }, [id])
+  }, [id, props])
 
   if(!blog) {
     return null;
   }
   return(
     <>
-      <NavigationBar />
-      <BlogBody blog={blog} deleteBlog={props.deleteBlog} editBlog={props.editBlog} tags={props.tags}/>
+      <BlogBody blog={blog} deleteBlog={props.deleteBlog} tags={props.tags} setBlogs={props.setBlogs}/>
     </>
   );
 

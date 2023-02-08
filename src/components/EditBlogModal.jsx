@@ -31,27 +31,32 @@ export default function EditBlogModal(props) {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(tagsArr, "32");
   const handleAdd = () => {
     var tag = document.getElementById("outlined-addtag").value;
-    if (tagsArr.find(element => element.tagname === tag)) {
+    if (props.tags.find(element => element.tagname === tag)) {
       alert("Tag already exist, please either look for it in the tag list or enter a new one!");
+    } else if (tag.length === 0){
+      alert("Tag name cannot be empty, please enter a valid name!")
     } else {
       var obj = {id: "null", tagname: tag};
       tagsArr.push(obj);
       setTagsArr([...tagsArr]);
     }
-  }
+  };
+
   const handleSubmit = () => {
     var blogname = document.getElementById("outlined-Title").value;
     var body = document.getElementById("outlined-Body").value;
     var tags = tagsArr;
     var obj = {blogname, body, tags};
-    console.log(obj);
     axios.post(`/blogdata/${props.blog.id}`, obj)
       .then(() => {
         console.log("post successfully");
-        handleClose();
+        axios.get('/blogdata')
+          .then(response => {
+            props.setBlogs(response.data);
+            handleClose();
+          })
       })
       .catch(err => {
         console.error(err);
@@ -67,8 +72,8 @@ export default function EditBlogModal(props) {
         aria-labelledby="title"
         aria-describedby="description">
         <Box sx={style}>
-        <TextField id="outlined-Title" fullWidth label="Edit you blog title: " value={props.blog.blogname} />
-        <TextField id="outlined-Body" fullWidth multiline rows={10} label="Edit your blog text: " value={props.blog.body} />
+        <TextField id="outlined-Title" fullWidth label="Edit you blog title: " defaultValue={props.blog.blogname} />
+        <TextField id="outlined-Body" fullWidth multiline rows={10} label="Edit your blog text: " defaultValue={props.blog.body} />
         <Typography sx={{ m: 1 }} align="left" >Edit tags: </Typography>
         <div class="edit-existing-tags">{tagsArr.map((tag, index) => {
                     return (

@@ -24,7 +24,6 @@ const selectColorForString = (str) => {
 }
 
 export default function Tag(props) {
-
   return(
     <div class="chip">
       <Chip label={props.tag.tagname} style={{"backgroundColor":selectColorForString(props.tag.tagname)}}/>
